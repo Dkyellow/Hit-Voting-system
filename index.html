@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VotePulse — Live Poll</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Background grid -->
+  <div class="bg-grid"></div>
+
+  <div class="wrapper">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="eyebrow">
+        <span class="live-dot"></span>
+        Live · Community Poll
+      </div>
+      <h1 class="title">Cast Your<br>Vote</h1>
+    </header>
+
+    <!-- Poll Card -->
+    <div class="card" id="pollCard">
+
+      <!-- Loading State -->
+      <div class="state-loading" id="stateLoading">
+        <div class="spinner"></div>
+        <p>Loading poll…</p>
+      </div>
+
+      <!-- Error State -->
+      <div class="state-error hidden" id="stateError">
+        <p>⚠️ Could not connect to database.</p>
+        <p class="muted">Check your Supabase config in <code>js/config.js</code></p>
+      </div>
+
+      <!-- Poll Content -->
+      <div class="poll-content hidden" id="pollContent">
+
+        <p class="question" id="questionText">Loading…</p>
+
+        <!-- Candidate Buttons -->
+        <div class="candidates" id="candidates">
+          <button class="candidate-btn a" id="btnA" onclick="castVote('A')">
+            <div class="avatar avatar-a" id="avatarA">A</div>
+            <span class="cname" id="nameA">Candidate A</span>
+            <span class="voted-badge a-badge">✓ Your Vote</span>
+          </button>
+          <button class="candidate-btn b" id="btnB" onclick="castVote('B')">
+            <div class="avatar avatar-b" id="avatarB">B</div>
+            <span class="cname" id="nameB">Candidate B</span>
+            <span class="voted-badge b-badge">✓ Your Vote</span>
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Results -->
+        <div class="poll-results">
+
+          <div class="poll-row">
+            <div class="poll-meta">
+              <span class="poll-label a" id="resultNameA">Candidate A</span>
+              <span class="poll-stats" id="statsA">0 votes · 0%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill a" id="barA"></div>
+            </div>
+          </div>
+
+          <div class="poll-row">
+            <div class="poll-meta">
+              <span class="poll-label b" id="resultNameB">Candidate B</span>
+              <span class="poll-stats" id="statsB">0 votes · 0%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill b" id="barB"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="total">
+          Total votes: <span id="totalVotes">0</span>
+          <span class="realtime-badge">● Realtime</span>
+        </div>
+
+        <button class="reset-btn" onclick="resetPoll()">↺ Reset Poll</button>
+
+      </div>
+    </div>
+
+    <!-- Recent Votes Feed -->
+    <div class="feed-card" id="feedCard">
+      <div class="feed-title">Recent Activity</div>
+      <ul class="feed-list" id="feedList">
+        <li class="feed-item muted">No votes yet…</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
